@@ -9,17 +9,17 @@ Whenever an HTML page request arrives from client, it is checked against the ‘
 
 **1. Random Caching**
 
-Metadata, in this case, is maintained using a vector (a standard C++ library data-structure). A vector is employed due to its dynamic nature (can expand and shrink as per requirements). In this vector, we maintain the keys (used in ‘unordered_map’). Using a random number generator (i.e. rand()), we find an index of an element in the vector. This randomly generated element is the one chosen for eviction - to make room for newly fetched content. 
+Metadata, in this case, is maintained using a __vector__ (a standard C++ library data-structure). A vector is employed due to its dynamic nature (can expand and shrink as per requirements). In this vector, we maintain the keys (used in ‘unordered_map’). Using a random number generator (i.e. rand()), we find an index of an element in the vector. This randomly generated element is the one chosen for eviction - to make room for newly fetched content. 
 This eviction policy does not give importance to either cache affinity or fairness. By randomly evicting data from cache, more cache misses are highly probable. This mechanism is used to gauge-at the proxy server’s performance as opposed to ones offered by other (prominent) schemes.
 
 **2. FIFO Caching**
 
-Metadata, in this case, is maintained using a deque (a standard C++ library data-structure). A deque follows FIFO - first-in-first-out, structure while populating/removing content. Deque (like most of the other containers) can dynamically shrink and grow. On a ‘Cache Miss’, the keys are pushed at the back of queue - the ordering is of significance in FIFO. Similarly, at the time of eviction, the data which arrived first is popped out of the deque - first entry in the deque is popped, which is then used for removing the actual element from cache. Considering we are always removing and adding elements to fixed spots in the deque, the time-complexity incurred for its maintenance is nominal.
+Metadata, in this case, is maintained using a __deque__ (a standard C++ library data-structure). A deque follows FIFO - first-in-first-out, structure while populating/removing content. Deque (like most of the other containers) can dynamically shrink and grow. On a ‘Cache Miss’, the keys are pushed at the back of queue - the ordering is of significance in FIFO. Similarly, at the time of eviction, the data which arrived first is popped out of the deque - first entry in the deque is popped, which is then used for removing the actual element from cache. Considering we are always removing and adding elements to fixed spots in the deque, the time-complexity incurred for its maintenance is nominal.
 The eviction policy, in this case, pays attention to fairness but not to cache affinity. This scheme would work well if the emphasis has to be upon fairness of operation, but considering our implementation intends to serve as a proxy server - where no such presumptions holds, this scheme might fare poorly.
 
 **3. Largest-Size-First Caching**
 
-Metadata, in this case, is maintained using a priority queue (a standard C++ library data-structure). A priority queue fits this problem best, as it can easily maintain entries in a certain order (i.e. based on a defined criteria). The criteria for ordering, in our problem, is the size of data fetched from the internet. Internally, a priority queue is maintained on top of a heap - making the insertions (via push()) have logarithmic time-complexity and deletions (via pop()) have constant time-complexities, on an average. A priority queue, like its contemporaries, is a dynamic data structure. Entry with the largest data size is always kept on top, and this data-structure is used for finding the next element to evict from cache.
+Metadata, in this case, is maintained using a __priority queue__ (a standard C++ library data-structure). A priority queue fits this problem best, as it can easily maintain entries in a certain order (i.e. based on a defined criteria). The criteria for ordering, in our problem, is the size of data fetched from the internet. Internally, a priority queue is maintained on top of a heap - making the insertions (via push()) have logarithmic time-complexity and deletions (via pop()) have constant time-complexities, on an average. A priority queue, like its contemporaries, is a dynamic data structure. Entry with the largest data size is always kept on top, and this data-structure is used for finding the next element to evict from cache.
 An assumption is made about the manner in which clients would request data from server - the clients are highly improbable to request for hefty data frequently. With this assumption, the caching policy evicts data in a non-increasing order of HTML body-content’s length. This scheme seems to be problematic as the very assumption which forms the basis of this policy could be violated - the clients might end up requesting for large contents more often than anticipated, leading to frequent cache misses, further leading to increased latency. Also, this scheme does not lay any emphasis on either fairness or cache affinity.
 The eviction process (via all these policies) is performed till enough room is made to incorporate new data.
 
@@ -51,7 +51,8 @@ All the experiments were conducted on **Ubuntu 12.04 x86-64b** machines.
    *(This generates two workloads to tinker with - workloadA and workloadB)*
    
 6. For conducting experiments:
-In order to execute any of the server binaries mentioned above: `./server_* <cache_size>`
+
+   In order to execute any of the server binaries mentioned above: `./server_* <cache_size>`
 
    a. *The cache size will be processed in KBs - for e.g. giving a value of 10 will make the server have a cache size of 10 KB.*
    
