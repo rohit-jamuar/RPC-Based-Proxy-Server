@@ -61,7 +61,7 @@ In order to execute any of the server binaries mentioned above: `./server_* <cac
   
 7. In order to execute client binary: `./client <IP address> <workload_file_name>`
 
-   a. *(If testing locally, you can give the \<IP address\> as __localhost__)*
+   *(If testing locally, you can give the \<IP address\> as __localhost__)*
 
 8. For **finding average times** taken by server to serve HTML content (to be done on client): 
 
