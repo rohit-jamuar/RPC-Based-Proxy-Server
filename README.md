@@ -15,7 +15,7 @@ This eviction policy does not give importance to either cache affinity or fairne
 **2. FIFO Caching**
 
 Metadata, in this case, is maintained using a __deque__ (a standard C++ library data-structure). A deque follows FIFO - first-in-first-out, structure while populating/removing content. Deque (like most of the other containers) can dynamically shrink and grow. On a ‘Cache Miss’, the keys are pushed at the back of queue - the ordering is of significance in FIFO. Similarly, at the time of eviction, the data which arrived first is popped out of the deque - first entry in the deque is popped, which is then used for removing the actual element from cache. Considering elements are being removed and added to fixed spots in the deque, the time-complexity incurred for its maintenance is nominal.
-The eviction policy, in this case, pays attention to fairness but not to cache affinity. This scheme would work well if the emphasis has to be upon fairness of operation, but considering our implementation intends to serve as a proxy server - where no such presumptions holds, this scheme might fare poorly.
+The eviction policy, in this case, pays attention to fairness but not to cache affinity. This scheme would work well if the emphasis has to be upon fairness of operation, but considering our implementation intends to serve as a proxy server - where no such presumptions hold, this scheme might fare poorly.
 
 **3. Largest-Size-First Caching**
 
