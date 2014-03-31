@@ -31,7 +31,7 @@ All the experiments were conducted on **Ubuntu 12.04 x86-64b** machines.
 1. Change current working directory to the extracted gen-cpp folder.
 2. On each terminal : `export LD_LIBRARY_PATH=/usr/local/lib`
 
-   The better option is to add this commnad in **.bashrc**
+   The better option is to append this commnad to **.bashrc**
 
 3. Run **make**
 4. Performing step-4 will yield following binaries:
