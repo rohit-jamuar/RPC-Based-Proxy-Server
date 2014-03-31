@@ -25,9 +25,9 @@ The eviction process (via all these policies) is performed till enough room is m
 
 ##Running Experiments
 
-All the experiments were conducted on Ubuntu 12.04 x86-64b machines.
+All the experiments were conducted on **Ubuntu 12.04 x86-64b** machines.
 
-0. Make sure that you've installed Apache Thrift. If not:[1](http://thrift.apache.org/tutorial/),[2](http://thrift.apache.org/download)
+0. Make sure that you've installed Apache Thrift. **If not**:[1](http://thrift.apache.org/tutorial/),[2](http://thrift.apache.org/download)
 1. Change current working directory to the extracted gen-cpp folder.
 2. On each terminal : `export LD_LIBRARY_PATH=/usr/local/lib`
 
