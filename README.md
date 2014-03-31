@@ -76,4 +76,4 @@ All the experiments were conducted on **Ubuntu 12.04 x86-64b** machines.
 
    b. Hit ratio is computed by dividing output of `cat <file_name> | grep “Hit” | wc -l` with total number of requests in workload.
    
-   *(In our setup, we had 100 URLs/workload)*
+   *(In current setup, there were 100 URLs/workload)*
