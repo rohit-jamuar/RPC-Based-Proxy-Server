@@ -24,11 +24,17 @@ An assumption is made about the manner in which clients would request data from 
 The eviction process (via all these policies) is performed till enough room is made to incorporate new data.
 
 ##Running Experiments
+
+All the experiments were conducted on Ubuntu 12.04 x86-64b machines.
+
 0. Make sure that you've installed Apache Thrift. If not:[1](http://thrift.apache.org/tutorial/),[2](http://thrift.apache.org/download)
-1. Open two terminals and change current working directory (of both) to the extracted gen-cpp folder.
-2. In both terminals : `export LD_LIBRARY_PATH=/usr/local/lib`
+1. Change current working directory to the extracted gen-cpp folder.
+2. On each terminal : `export LD_LIBRARY_PATH=/usr/local/lib`
+
+   The better option is to add this commnad in **.bashrc**
+
 3. Run **make**
-4. Performing step-3 will yield following binaries:
+4. Performing step-4 will yield following binaries:
 
    **server_FIFOCaching**  -- proxy server with FIFO replacement policy
    
@@ -51,20 +57,22 @@ In order to execute any of the server binaries mentioned above: `./server_* <cac
    
    b. *If no \<cache\_size\> is provided, the code will default it to 1024 KB.*
    
-   c. *If the payloads were generated using Step5, the minimum cache size needed for running experiments = 256 KB.)*
+   c. *If the payloads were generated using Step-6, the minimum cache size needed for running experiments = 256 KB.)*
   
 7. In order to execute client binary: `./client <IP address> <workload_file_name>`
 
    a. *(If testing locally, you can give the \<IP address\> as __localhost__)*
 
-8. For finding average times taken by server to serve HTML content (to be done on client): 
+8. For **finding average times** taken by server to serve HTML content (to be done on client): 
 
    a. `./client <IP address> <workload_file_name> | tee <file_name>`
 
    b. `python getAvgTimes.py <file_name>`
    
-9. For finding the cache hit/miss ratio (to be done on server):
+9. For **finding cache hit/miss ratio** (to be done on server):
 
    a. `./server_* <cache_size> | tee <file_name>`
 
-   b. Hit ratio is computed by dividing output of `cat <file_name> | grep “Hit” | wc -l` with 100.
+   b. Hit ratio is computed by dividing output of `cat <file_name> | grep “Hit” | wc -l` with total number of requests in workload.
+   
+   *(In our setup, we had 100 URLs/workload)*
